@@ -21,11 +21,11 @@ class EntriesController < ApplicationController
     @entry["place_id"] = params["place_id"]
     @entry["user_id"] = current_user["id"]
 
-    if params["image"] != nil
-      @entry.image.attach(params["image"])
-    end
-
     if @entry.save
+      if params["image"] != nil
+        @entry.image.attach(params["image"])
+      end
+
       redirect_to "/places/#{@entry["place_id"]}"
     else
       flash["notice"] = @entry.errors.full_messages.join(", ")
